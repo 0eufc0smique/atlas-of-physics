@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="atlas.css">
+<script src="engine/cover.js" data-contents></script>
+<!-- every chapter draws with three.js: fetch it now, so a chapter opens without waiting on it -->
+<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js" crossorigin>
+<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js" crossorigin>
 <style>
   body { min-height: 100vh; padding: 0 16px 80px; }
   header { max-width: 1180px; margin: 0 auto; padding: 22px 12px; display: flex; justify-content: space-between; font: 500 12px var(--mono); letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
@@ -38,45 +42,45 @@
     <h1>Physics, taken apart.</h1>
     <p>Learn each chapter with in-depth visuals and explanations</p>
   </section>
-  <h2 class="section">AP Physics 1 · Mechanics</h2>
+  <h2 class="section">AP Physics 1/C · Mechanics</h2>
   <section class="shelf">
     <a class="card" href="kinematics/">
-      <div class="no"><span>No. 01</span><span>3D · 11 pages</span></div>
+      <div class="no"><span>No. 01</span><span>11 pages</span></div>
       <h2>Kinematics</h2><i>motion, frames and calculus</i>
       <img src="img/kinematics.jpg" alt="A ball thrown straight up beside a position axis, with velocity and acceleration arrows and motion graphs">
     </a>
     <a class="card" href="newton/">
-      <div class="no"><span>No. 02</span><span>3D · 13 pages</span></div>
+      <div class="no"><span>No. 02</span><span>13 pages</span></div>
       <h2>Newton’s laws</h2><i>what changes motion</i>
       <img src="img/newton.jpg" alt="A block on a 30 degree ramp with its weight, normal force and net force drawn as arrows">
     </a>
     <a class="card" href="circular/">
-      <div class="no"><span>No. 03</span><span>3D · 13 pages</span></div>
+      <div class="no"><span>No. 03</span><span>13 pages</span></div>
       <h2>Circular motion</h2><i>circles, ellipses, escape</i>
       <img src="img/circular.jpg" alt="A cart in a vertical loop with its normal force and weight">
     </a>
     <a class="card" href="energy/">
-      <div class="no"><span>No. 04</span><span>3D · 12 pages</span></div>
+      <div class="no"><span>No. 04</span><span>12 pages</span></div>
       <h2>Work and energy</h2><i>from work to well</i>
       <img src="img/energy.jpg" alt="A pendulum with live bars for kinetic, potential and total energy">
     </a>
     <a class="card" href="momentum/">
-      <div class="no"><span>No. 05</span><span>3D · 12 pages</span></div>
+      <div class="no"><span>No. 05</span><span>12 pages</span></div>
       <h2>Momentum</h2><i>mass in motion</i>
       <img src="img/momentum.jpg" alt="A car and a truck colliding at a crossroads, with their momenta added tip to tail">
     </a>
     <a class="card" href="oscillations/">
-      <div class="no"><span>No. 06</span><span>3D · 12 pages</span></div>
+      <div class="no"><span>No. 06</span><span>12 pages</span></div>
       <h2>Oscillations</h2><i>back and forth, and back again</i>
       <img src="img/oscillations.jpg" alt="A block on a spring drawing its own cosine on a paper strip">
     </a>
     <a class="card" href="rotation/">
-      <div class="no"><span>No. 07</span><span>3D · 15 pages</span></div>
+      <div class="no"><span>No. 07</span><span>15 pages</span></div>
       <h2>Rotation</h2><i>turning, torque, angular momentum</i>
       <img src="img/rotation.jpg" alt="A bicycle wheel with its angular velocity and angular acceleration arrows">
     </a>
     <a class="card" href="fluids/">
-      <div class="no"><span>No. 08</span><span>3D · 9 pages</span></div>
+      <div class="no"><span>No. 08</span><span>9 pages</span></div>
       <h2>Fluids</h2><i>pressure, buoyancy and flow</i>
       <img src="img/fluids.jpg" alt="Two pistons on one sealed column of water, a small push holding up a large load">
     </a>
@@ -84,37 +88,37 @@
   <h2 class="section">AP Physics C · Electricity and magnetism</h2>
   <section class="shelf">
     <a class="card" href="electrostatics/">
-      <div class="no"><span>No. 09</span><span>3D · 9 pages</span></div>
+      <div class="no"><span>No. 09</span><span>9 pages</span></div>
       <h2>Electrostatics</h2><i>charges, fields, superposition</i>
       <img src="img/electrostatics.jpg" alt="The field lines of an electric dipole">
     </a>
     <a class="card" href="gauss/">
-      <div class="no"><span>No. 10</span><span>3D · 9 pages</span></div>
+      <div class="no"><span>No. 10</span><span>9 pages</span></div>
       <h2>Gauss’s law</h2><i>flux and enclosed charge</i>
       <img src="img/gauss.jpg" alt="A hollow metal shell bending the field lines around it">
     </a>
     <a class="card" href="potential/">
-      <div class="no"><span>No. 11</span><span>3D · 9 pages</span></div>
+      <div class="no"><span>No. 11</span><span>9 pages</span></div>
       <h2>Electric potential</h2><i>energy per unit charge</i>
       <img src="img/potential.jpg" alt="The potential of a point charge drawn as a hill with equipotential rings">
     </a>
     <a class="card" href="capacitors/">
-      <div class="no"><span>No. 12</span><span>3D · 9 pages</span></div>
+      <div class="no"><span>No. 12</span><span>9 pages</span></div>
       <h2>Capacitors</h2><i>charge held apart</i>
       <img src="img/capacitors.jpg" alt="A spherical capacitor cut away to show the field between the shells">
     </a>
     <a class="card" href="circuits/">
-      <div class="no"><span>No. 13</span><span>3D · 9 pages</span></div>
+      <div class="no"><span>No. 13</span><span>9 pages</span></div>
       <h2>Circuits</h2><i>potential as height</i>
       <img src="img/circuits.jpg" alt="A battery and resistor raised so each point's height is its potential">
     </a>
     <a class="card" href="magnetism/">
-      <div class="no"><span>No. 14</span><span>3D · 9 pages</span></div>
+      <div class="no"><span>No. 14</span><span>9 pages</span></div>
       <h2>Magnetic fields</h2><i>made by moving charge</i>
       <img src="img/magnetism.jpg" alt="A bar magnet drawn as stacked current loops, with its closed field lines">
     </a>
     <a class="card" href="induction/">
-      <div class="no"><span>No. 15</span><span>3D · 10 pages</span></div>
+      <div class="no"><span>No. 15</span><span>10 pages</span></div>
       <h2>Induction</h2><i>changing flux, induced current</i>
       <img src="img/induction.jpg" alt="A bar magnet approaching a loop, with field lines, the induced current and its field">
     </a>

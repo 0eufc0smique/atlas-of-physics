@@ -8,7 +8,7 @@
   font: 500 12px/1 var(--mono); letter-spacing: .06em; color: var(--muted);
 }
 .brand { font: 500 19px/1 var(--serif); letter-spacing: 0; color: var(--strong); text-decoration: none; }
-.crumb { text-transform: uppercase; }
+.crumb { text-transform: uppercase; position: relative; top: 2.5px; }   /* on the title's baseline: centring their boxes left it high */
 .dots { margin-left: auto; display: flex; gap: 8px; }
 .dots button {
   width: 22px; height: 22px; border: 0; background: none; padding: 0; cursor: pointer; display: grid; place-items: center;
@@ -24,6 +24,8 @@
 }
 .page { position: relative; background: var(--card); overflow: hidden; }
 .page.left { border-radius: 14px 3px 3px 14px; box-shadow: var(--lift); padding: 54px 56px 64px; }
+/* opening, the left page swings out from under the cover, about the spine (engine/cover.js) */
+.page.left { backface-visibility: hidden; transform-origin: 100% 50%; }
 .page.right { border-radius: 3px 14px 14px 3px; box-shadow: var(--lift); }
 .spine {
   position: absolute; top: 0; bottom: 0; left: calc(41% - 0px); width: 60px; transform: translateX(-50%); pointer-events: none;
@@ -91,12 +93,13 @@
   position: absolute; top: 0; bottom: 0; left: 41%; right: 0; transform-origin: left center; transform-style: preserve-3d;
   pointer-events: none; visibility: hidden;
 }
-.leaf-front, .leaf-back { position: absolute; inset: 0; backface-visibility: hidden; background: var(--card); }
+.leaf-front, .leaf-back { position: absolute; inset: 0; backface-visibility: hidden; background: var(--card); overflow: hidden; }
 .leaf-front { border-radius: 3px 14px 14px 3px; display: flex; align-items: flex-end; justify-content: flex-end; padding: 22px 26px; font: italic 19px var(--serif); color: var(--lo); }
 /* the leaf is as wide as the right page; once turned, only its left-page-sized part is paper */
 .leaf-back { transform: rotateY(180deg); border-radius: 14px 3px 3px 14px; padding: 54px 56px 64px calc(30.5% + 56px);
   background: linear-gradient(90deg, transparent 30.5%, var(--card) 30.5%); }
 .leaf-shade { position: absolute; inset: 0; pointer-events: none; }
+.leaf-back .folio { left: 30.5%; right: 0; bottom: 0; padding: 26px 56px 24px; background: linear-gradient(rgba(251,251,250,0), var(--card) 45%); }
 
 .scroll-cue { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); font: 12px var(--mono); color: var(--muted); letter-spacing: .06em; transition: opacity .6s; }
 
@@ -222,6 +225,7 @@
   .book { width: calc(100vw - 32px); grid-template-columns: minmax(330px, 0.85fr) 1.15fr; }
   .page.left, .plate { padding-left: 36px; padding-right: 36px; }
   .leaf-back { padding-left: calc(30.5% + 36px); padding-right: 36px; }
+  .leaf-back .folio { padding-left: 36px; padding-right: 36px; }
   @media (min-width: 901px) { .page.left .folio { margin-left: -36px; margin-right: -36px; padding-left: 36px; padding-right: 36px; } }
   .dots { gap: 2px; }
   .dots button { width: 18px; }

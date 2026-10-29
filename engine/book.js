@@ -65,6 +65,9 @@ export function startBook(chapter) {
     q.querySelector('.why').hidden = false;
   });
   let shown = -1, leafFor = -1;
+  // the leaf's back is the next left page: the same folio at its foot
+  const leafFolio = $('folio').parentNode.cloneNode(true); leafFolio.lastElementChild.removeAttribute('id');
+  document.querySelector('.leaf-back').append(leafFolio);
   function showPage(i) {
     if (i === shown) return;
     shown = i;
@@ -96,9 +99,10 @@ export function startBook(chapter) {
   // ---------- scene ----------
   const E = createEngine($('gl'), { fov: 18, near: 0.2, far: 300 });
   const W = chapter.buildWorld(E);
-  // the figure's box, read once per resize: reading it every frame forced a layout after each DOM write
-  let rect = $('gl').getBoundingClientRect();
-  const fit = () => { rect = $('gl').getBoundingClientRect(); E.resize(rect.width, rect.height); };
+  // the figure's box, read once per resize: reading it every frame forced a layout after each DOM write.
+  // Its size is the layout size, so the book zooming open (cover.js) cannot shrink the canvas; cover.js refits after.
+  let rect;
+  const fit = () => { const c = $('gl'), b = c.getBoundingClientRect(); rect = { left: b.left, top: b.top, width: c.clientWidth, height: c.clientHeight }; E.resize(rect.width, rect.height); };
   addEventListener('resize', fit);
   new ResizeObserver(fit).observe($('gl')); fit();
 
@@ -248,7 +252,7 @@ export function startBook(chapter) {
     if (PAGES[shown].lit !== pageLit) { pageLit = PAGES[shown].lit; relight(); }
     const leaf = $('leaf');
     if (flip > 0.001 && flip < 0.999) {
-      if (leafFor !== j) { leafFor = j; $('leafsheet').innerHTML = sheetHtml(j); $('leafnext').textContent = PAGES[j].fig; }
+      if (leafFor !== j) { leafFor = j; $('leafsheet').innerHTML = sheetHtml(j); $('leafnext').textContent = PAGES[j].fig; leafFolio.lastElementChild.textContent = j + 1; }
       leaf.style.visibility = 'visible';
       leaf.style.transform = `rotateY(${-180 * flip}deg)`;
       leaf.querySelector('.leaf-front').style.opacity = 0.25 + 0.6 * smooth(0.15, 0.5, flip);
@@ -301,6 +305,7 @@ export function startBook(chapter) {
   }
   relight();
   { const k = fromHash(); if (k !== null) goto(k, true); }
-  document.fonts.ready.then(() => requestAnimationFrame(frame));
+  // the first frame drawn: the book can open now (cover.js)
+  document.fonts.ready.then(() => requestAnimationFrame(t => { frame(t); dispatchEvent(new Event('bookready')); }));
   window.__atlas = { E, select, goto };
 }

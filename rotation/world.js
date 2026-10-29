@@ -26,8 +26,18 @@ export const LP_SCALE = 0.7;      // ball on a rod: L arrows, metres per kg·m²
 const Z = V(0, 0, 1);
 // keep hidden arrows where they belong, so a breakdown's zoom frames only its own scene
 const setArrow = (a, from, vec, op = 1) => { a.position.copy(from); setArrow0(a, from, vec, op); };
-const torusCache = new Map();
-const torusGeo = (R, tube, d) => { const k = `${R}|${tube}|${d}`; if (!torusCache.has(k)) torusCache.set(k, new THREE.TorusGeometry(R, tube, 8, Math.max(3, Math.ceil(d / 4)), d * Math.PI / 180)); return torusCache.get(k); };
+// a curved arrow's ring, bent in place to its arc each frame (three's TorusGeometry vertices, re-placed): rings cut to
+// whole degrees made a slowly turning ω arrow step
+const ARC_SEGS = 48;
+function bendArc(geo, R, tube, arc) {
+  const p = geo.attributes.position, n = geo.attributes.normal;
+  for (let j = 0, k = 0; j <= 8; j++) for (let i = 0; i <= ARC_SEGS; i++, k++) {
+    const u = i / ARC_SEGS * arc, v = j / 8 * Math.PI * 2, c = Math.cos(v);
+    p.setXYZ(k, (R + tube * c) * Math.cos(u), (R + tube * c) * Math.sin(u), tube * Math.sin(v));
+    n.setXYZ(k, c * Math.cos(u), c * Math.sin(u), Math.sin(v));
+  }
+  p.needsUpdate = n.needsUpdate = true;
+}
 
 export function buildWorld(E) {
   const { scene, asm } = E;
@@ -49,7 +59,8 @@ export function buildWorld(E) {
   function curve(parent, pal, { R, tube = 0.018, head = 0.12, headR = 0.05, name = 'Vectors', tone = 'hi', noHead = false }) {
     const g = new THREE.Group();
     const mat = shadeMat(pal).clone(); mat.depthTest = false;
-    const ring = part(g, torusGeo(R, tube, 10), { pal, tone, name, mat });
+    const ring = part(g, new THREE.TorusGeometry(R, tube, 8, ARC_SEGS, 1), { pal, tone, name, mat });
+    ring.frustumCulled = false;   // its bounds change as it bends
     const cone = part(g, new THREE.ConeGeometry(headR, head, 20), { pal, tone, name, mat });
     ring.renderOrder = cone.renderOrder = 10; cone.visible = !noHead;
     g.userData.curve = { ring, cone, R, tube, head: noHead ? 0 : head };
@@ -63,9 +74,8 @@ export function buildWorld(E) {
     a.visible = opacity > 0.01 && len > 0.04;
     if (!a.visible) return;
     a.position.copy(center); a.quaternion.setFromUnitVectors(Z, normal.clone().normalize());
-    const sg = Math.sign(arc), hl = Math.min(head, len * 0.5), body = Math.abs(arc) - hl / R;
-    const d = Math.max(1, Math.round(body * 180 / Math.PI)), b = d * Math.PI / 180;
-    ring.geometry = torusGeo(R, tube, d);
+    const sg = Math.sign(arc), hl = Math.min(head, len * 0.5), b = Math.abs(arc) - hl / R;
+    bendArc(ring.geometry, R, tube, b);
     ring.rotation.set(0, 0, sg > 0 ? start : start - b);
     const ca = start + sg * (b + hl / (2 * R));
     cone.position.set(R * Math.cos(ca), R * Math.sin(ca), 0);
