@@ -50,10 +50,13 @@ export function startBook(chapter) {
       const [d, k] = to.split('/');
       return `<p><a href="${d === DIR ? '' : `../${d}/`}#${k}">${label} →</a> ${note}</p>`; }).join('')}</aside>`;
   };
-  const sheetHtml = i => { const p = PAGES[i]; return `<div class="kicker">${p.kicker}</div><h1>${p.title}</h1><div class="sub">${p.sub}</div>${p.body}${xrefHtml(i)}${practiceHtml(i)}`; };
+  // small screens: the page ends with a way on to the next (book.css shows it there)
+  const turnHtml = i => i < N - 1 ? `<button type="button" class="turn" data-turn="${i + 1}"><span class="kicker">Next page</span>${PAGES[i + 1].title} →</button>` : '';
+  const sheetHtml = i => { const p = PAGES[i]; return `<div class="kicker">${p.kicker}</div><h1>${p.title}</h1><div class="sub">${p.sub}</div>${p.body}${xrefHtml(i)}${practiceHtml(i)}${turnHtml(i)}`; };
   // answering: click a choice to mark it and show the worked solution
   $('sheet').addEventListener('click', e => {
     const b = e.target.closest('button'), q = b && b.closest('.q');
+    if (b?.dataset.turn) return goto(+b.dataset.turn);
     if (!q) return;
     const item = PRACTICE[shown][+q.dataset.q];
     if (b.dataset.c !== undefined) {

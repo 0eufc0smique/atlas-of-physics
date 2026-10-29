@@ -209,6 +209,17 @@
 .practice .why p { margin: 0 0 8px; }
 .practice .why .eq { font-size: 20px; }
 
+/* ---- small screens: on to the next page from the end of this one ---- */
+.turn { display: none; }
+@media (max-width: 900px), (max-height: 520px) {
+  .turn {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; max-width: 62ch; margin: 26px 0 4px;
+    padding: 16px 18px; border: 1px solid var(--faint); border-radius: 12px; background: var(--card); cursor: pointer;
+    font: 400 21px/1.2 var(--serif); color: var(--strong); text-align: left;
+  }
+  .turn:active { border-color: var(--mid); }
+}
+
 /* ---- top bar: pager (small screens) and the equation sheet ---- */
 .pager { display: none; align-items: center; gap: 4px; margin-left: auto; font: 500 12px var(--mono); color: var(--hi); }
 .pager button { width: 36px; height: 36px; border: 0; background: none; font: 400 22px/1 var(--serif); color: var(--hi); cursor: pointer; border-radius: 50%; }
@@ -250,6 +261,19 @@
   .paused { top: 40px; }
   .data { font-size: 12px; }
   .choices button { padding: 11px 12px; }
+  .eq { overflow-x: auto; }
+  .pager button { height: 44px; }
+  /* no hover on a phone: say what the figure does, under its number */
+  .corner.bl { display: block; top: 32px; bottom: auto; left: 14px; max-width: 40%; font-size: 11px; line-height: 1.4; }
+  .corner.tr { max-width: 55%; }
+  .lbl.vec { font-size: 19px; }
+}
+/* phones upright: more of the screen for the text, which is what is read */
+@media (max-width: 599px) {
+  .book { grid-template-rows: 42% 58%; width: calc(100vw - 16px); }
+  .page.left, .plate { padding: 20px 18px 36px; }
+  .sheet h1, .plate h1 { font-size: clamp(30px, 8.5vw, 38px); }
+  .sheet p, .plate p { font-size: 16px; line-height: 1.6; }
 }
 @media (max-width: 400px) {
   .topbar { gap: 8px; }
@@ -280,6 +304,6 @@
   .corner.bl { display: none; }
 }
 /* the hint and the readout share the figure's bottom edge; on narrower figures the hint gives way */
-@media (max-width: 1240px) { .corner.bl { display: none; } }
+@media (max-width: 1240px) and (min-width: 901px) { .corner.bl { display: none; } }
 /* fingers: each swipe lands on a whole page */
 @media (pointer: coarse) { html { scroll-snap-type: y mandatory; } .scroll-space > div { scroll-snap-align: start; } }
