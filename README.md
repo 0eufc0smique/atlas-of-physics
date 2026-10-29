@@ -31,6 +31,11 @@ tools/shoot.mjs         headless screenshots of every page and a few opened part
 tools/uitest.mjs        one page by deep link: practice, compare links, overflow (any viewport, touch)
 tools/taptest.mjs       phone viewport: a tap opens a breakdown
 tools/perf.mjs          per-chapter load time, fps, script and layout cost
+tools/allpages.mjs      every page by deep link: practice present, no console errors
+tools/dumptext.mjs      the rendered text of every page of a chapter, for proofreading
+tools/prof.mjs          CPU profile of one chapter; tools/loadprof.mjs the same for page load
+tools/picktest.mjs      hover near a moving part, then click: does it open?
+tools/scrolltest.mjs    scroll an overflowing left page to the bottom and screenshot it
 ```
 
 Tools need `npm install` (puppeteer-core) and Chrome (set `CHROME` to its path if not at the macOS default). Screenshots: `CHAPTER=newton PARTS=rest:0,car:5 node tools/shoot.mjs shots/newton` (PARTS = key or key:page)

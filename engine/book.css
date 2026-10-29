@@ -212,6 +212,8 @@
 .pager button:hover { background: #f0f0ec; }
 .eqlink { font: 500 12px var(--mono); letter-spacing: .06em; color: var(--muted); text-decoration: none; text-transform: uppercase; }
 .eqlink:hover { color: var(--strong); }
+.gh { display: flex; color: var(--muted); }
+.gh:hover { color: var(--strong); }
 
 /* ---- phones and tablets ---- */
 .book { height: min(880px, calc(100dvh - 100px)); }
@@ -228,6 +230,10 @@
   .dots { display: none; }
   .pager { display: flex; }
   .eqlink { order: 3; }
+  .gh { order: 4; }
+  .topbar { gap: 12px; }
+  .brand, #pagenum { white-space: nowrap; }
+  .pager button { width: 32px; }
   .book { height: calc(100dvh - 68px); top: calc(50% + 26px); }
   .page.left { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
   .sheet h1, .plate h1 { font-size: clamp(32px, 8vw, 44px); }
@@ -240,6 +246,15 @@
   .paused { top: 40px; }
   .data { font-size: 12px; }
   .choices button { padding: 11px 12px; }
+}
+@media (max-width: 400px) {
+  .topbar { gap: 8px; }
+  .brand { font-size: 17px; }
+  .pager button { width: 28px; }
+}
+@media (max-width: 340px) {
+  .gh { display: none; }   /* the smallest phones: the contents page still links the repo */
+  .pager button { width: 24px; }
 }
 /* tablets upright: a taller figure, roomier text */
 @media (max-width: 900px) and (min-width: 600px) {
