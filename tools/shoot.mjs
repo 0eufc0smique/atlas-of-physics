@@ -19,7 +19,7 @@ const browser = await puppeteer.launch({ executablePath: process.env.CHROME || '
 const page = await browser.newPage();
 const errors = [];
 page.on('pageerror', e => errors.push(e.message));
-page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errors.push(m.text()); });
+page.on('console', m => { if ((m.type() === 'error' || m.type() === 'warning') && !m.location().url?.includes('/_vercel/insights/')) errors.push(m.text()); });
 await page.setViewport({ width: W, height: H, deviceScaleFactor: 2 });
 await page.goto(`http://localhost:${server.address().port}/${process.env.CHAPTER || "kinematics"}/`, { waitUntil: 'networkidle0' });
 await page.waitForFunction('window.__atlas', { timeout: 30000 }).catch(() => { console.log('page never started:\n' + errors.join('\n')); process.exit(1); });

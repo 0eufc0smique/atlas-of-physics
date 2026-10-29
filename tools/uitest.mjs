@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer-core';
 const [c, pg, out, w = 1440, h = 900, touch] = process.argv.slice(2);
 const browser = await puppeteer.launch({ executablePath: process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist'] });
 const page = await browser.newPage();
-const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error' && !m.location().url?.includes('/_vercel/insights/')) errors.push(m.text()); });
 await page.setViewport({ width: +w, height: +h, deviceScaleFactor: 2, isMobile: !!touch, hasTouch: !!touch });
 await page.goto(`http://127.0.0.1:8137/${c}/#${pg}`, { waitUntil: 'networkidle0' });
 await page.waitForFunction('window.__atlas'); await new Promise(r => setTimeout(r, 1500));

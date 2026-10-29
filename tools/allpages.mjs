@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer-core';
 const chapters = process.argv.length > 2 ? process.argv.slice(2) : ['kinematics','newton','circular','energy','momentum','oscillations','rotation','fluids','electrostatics','gauss','potential','capacitors','circuits','magnetism','induction'];
 const browser = await puppeteer.launch({ executablePath: process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist'] });
 const page = await browser.newPage(); await page.setViewport({ width: 1440, height: 900 });
-let errors = []; page.on('pageerror', e => errors.push(e.stack.split('\n').slice(0, 4).join(' <- '))); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+let errors = []; page.on('pageerror', e => errors.push(e.stack.split('\n').slice(0, 4).join(' <- '))); page.on('console', m => { if (m.type() === 'error' && !m.location().url?.includes('/_vercel/insights/')) errors.push(m.text()); });
 let bad = 0, qs = 0;
 for (const c of chapters) {
   errors = [];
